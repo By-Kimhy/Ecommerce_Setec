@@ -1,37 +1,58 @@
-import 'package:ecommercesetec/views/product_detail/product_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget{
+class ProductDetail extends StatelessWidget{
+  String routeName="detail";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Detail'),
+        actions: [
+          Stack(
+            children: [
+              Icon(Icons.shopping_cart,size: 28,),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: Text('2',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            width: 20,
+          )
+        ],
+      ),
       body: ListView(
         children: [
           _buildBanner(),
-          _buildTitle("Shop by Categories"),
-          _buildListCategory(),
-          _buildTitle("Special Offers"),
+          _buildTitleDetail(),
+          _buildTitle("Related Products"),
           _buildListProduct(context),
-          _buildTitle("New Product"),
-          _buildListProduct(context),
-        ],
-      )
 
+        ],
+      ),
     );
   }
 }
 
 _buildBanner(){
   return Container(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10)
-    ),
-    height: 250,
-    margin: EdgeInsets.symmetric(
-      horizontal: 10,
-    ),
-    clipBehavior: Clip.hardEdge,
+    height: 350,
     child: Image.network(
         fit: BoxFit.cover,
         "https://www.apacoutlookmag.com/media/chip-mong-retail-1-1597331139.profileImage.2x-jpg-webp.webp"),
@@ -51,39 +72,97 @@ _buildTitle(String title){
               fontWeight: FontWeight.bold),),
         Text("See All",
           style: TextStyle(
-            fontSize: 18),),
+              fontSize: 18),),
       ],
     ),
   );
 }
 
+_buildTitleDetail(){
+  return Container(
+    margin: EdgeInsets.only(
+      left: 12,
+      right: 12,
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 10,
+        ),
+        Row(
+          children: [
+            Text("Mango Juice",style: TextStyle(fontSize: 24),),
+            Spacer(),
+            Icon(Icons.favorite_border),
+          ],
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Row(
+          children: [
+            Icon(Icons.star_border,size: 20,),
+            Icon(Icons.star_border,size: 20,),
+            Icon(Icons.star_border,size: 20,),
+            Icon(Icons.star_border,size: 20,),
+            Icon(Icons.star_border,size: 20,),
+            SizedBox(
+              width: 5,
+            ),
+            Text("(4.6)",style:TextStyle(fontSize: 20),),
+          ],
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Row(
+          children: [
+            Text("\$ 3.50",style: TextStyle(fontSize: 24,color: Colors.green,fontWeight: FontWeight.bold),),
+            Spacer(),
+            _buildButton("Add To Cart",txtColor: Colors.green),
+            SizedBox(
+              width: 10,
+            ),
+            _buildButton("Buy Now",bgColor: Colors.green,txtColor: Colors.white),
+            SizedBox(
+              width: 10,
+            )
+          ],
+        ),
+        Divider(
+          color: Colors.black.withAlpha(80),
+          height: 30,
+        ),
+        Text("Description",style: TextStyle(fontWeight: .bold,fontSize: 25),),
+        Text(textAlign: TextAlign.justify,
+          """Effortlessly Split Panes and Navigate Between Code With the new Tab Multi-Select functionality, tabs become first-class citizens in the interface. A simple modifier when performing actions will split the interface to show multiple tabs at once. Works with the side bar, tab bar, Goto Anything and more!""",
+          style: TextStyle(fontSize: 16),),
+      ],
+    ),
+  );
+}
 
-var listCategorys=[
-  {
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "title":"Pizza"
-  },
-  {
-    "image":"https://d1hm90tax3m3th.cloudfront.net/web/vegetables.jpg",
-    "title":"Vegetable"
-  },
-  {
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "title":"Pizza"
-  },
-  {
-    "image":"https://d1hm90tax3m3th.cloudfront.net/web/vegetables.jpg",
-    "title":"Vegetable"
-  },
-  {
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "title":"Pizza"
-  },
-  {
-    "image":"https://d1hm90tax3m3th.cloudfront.net/web/vegetables.jpg",
-    "title":"Vegetable"
-  },
-];
+_buildButton(String title,{Color? bgColor,Color? txtColor}){
+  return Container(
+    width: 110,
+    padding: EdgeInsets.symmetric(
+        horizontal: 12,
+        vertical: 10,
+    ),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: bgColor == null ? Colors.white : bgColor,
+        border: Border.all(color: Colors.green,)
+    ),
+    child: Text(title,
+      style: TextStyle(
+        color: txtColor == null ? Colors.black : txtColor,
+      ),
+      textAlign: TextAlign.center,
+    ),
+  );
+}
 
 var listProduct=[
   {
@@ -118,44 +197,6 @@ var listProduct=[
   },
 ];
 
-_buildListCategory(){
-  return Container(
-    height: 120,
-    child: ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: listCategorys.length,
-      itemBuilder: (context,index){
-        return Container(
-          margin: EdgeInsets.only(
-            left: 10,
-            right: 10,
-            top: 10
-          ),
-          child: Column(
-            children: [
-              Container(
-                  height: 80,
-                  width: 80,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Image.network(
-                      "${listCategorys[index]["image"]}",
-                    fit: BoxFit.cover,)
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text("${listCategorys[index]["title"]}"),
-
-            ],
-          ),
-        );
-      }
-    ),
-  );
-}
 
 _buildListProduct(BuildContext context){
   return Container(
@@ -172,78 +213,6 @@ _buildListProduct(BuildContext context){
     ),
   );
 }
-
-// _buildProductItem(BuildContext context,var product){
-//   return InkWell(
-//     onTap: (){
-//       Navigator.pushNamed(context, ProductDetail().routeName);
-//     },
-//     child: Container(
-//       margin: EdgeInsets.only(left: 10, right: 5),
-//       width: 160,
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(12),
-//         boxShadow: [
-//           BoxShadow(
-//             color: Colors.black12,
-//             blurRadius: 8,
-//             offset: Offset(0, 4),
-//           ),
-//         ],
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Stack(
-//             children: [
-//               ClipRRect(
-//                 borderRadius: BorderRadius.vertical(
-//                   top: Radius.circular(12),
-//                 ),
-//                 child: Image.network(
-//                   product["image"] as String,
-//                   height: 120,
-//                   width: double.infinity,
-//                   fit: BoxFit.cover,
-//                 ),
-//               ),
-//               Positioned(
-//                 right: 8,
-//                 top: 8,
-//                 child: Icon(Icons.favorite_border),
-//               ),
-//             ],
-//           ),
-//
-//           SizedBox(height: 6),
-//
-//           Padding(
-//             padding: EdgeInsets.symmetric(horizontal: 8),
-//             child: Text(
-//               product["title"] as String,
-//               maxLines: 1,
-//               overflow: TextOverflow.ellipsis,
-//               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-//             ),
-//           ),
-//
-//           Padding(
-//             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-//             child: Text(
-//               "\$${product["price"]}",
-//               style: TextStyle(
-//                 fontSize: 18,
-//                 color: Colors.green,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     )
-//   );
-// }
 
 _buildProductItem(BuildContext context,var product){
   return InkWell(

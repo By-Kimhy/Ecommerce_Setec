@@ -24,7 +24,14 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: index == 0 ? Drawer():null,
-      appBar: index == 0 ? AppBar():null,
+      appBar: index == 0 ? AppBar(
+        actions: [
+          Icon(Icons.search),
+          SizedBox(width: 10,),
+          Icon(Icons.notifications),
+          SizedBox(width: 10,)
+        ],
+      ):null,
       body: _page[index],
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,

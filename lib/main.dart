@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main(){
-  runApp(app);
+  runApp(Ecommerce());
 }
 
 class Ecommerce extends StatelessWidget {

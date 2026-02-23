@@ -23,11 +23,14 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      drawer: index == 0 ? Drawer():null,
+      appBar: index == 0 ? AppBar():null,
       body: _page[index],
       bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           unselectedItemColor: Colors.grey,
           selectedItemColor: Colors.red,
+          showUnselectedLabels: true,
           currentIndex: index,
           onTap: (int newIndex){
             index=newIndex;

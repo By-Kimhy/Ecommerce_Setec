@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ecommercesetec/model/product_model.dart';
 import 'package:ecommercesetec/services/product_service.dart';
 import 'package:ecommercesetec/views/product_detail/product_detail.dart';
@@ -15,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   List<Product> listProduct=[];
   @override
   void initState() {
-    // TODO: implement initState
+    fetchProductData();
     super.initState();
   }
 
@@ -32,9 +34,9 @@ class _HomePageState extends State<HomePage> {
           _buildTitle("Shop by Categories"),
           _buildListCategory(),
           _buildTitle("Special Offers"),
-          _buildListProduct(context),
+          _buildListProduct(context,listProduct),
           _buildTitle("New Product"),
-          _buildListProduct(context),
+          _buildListProduct(context,listProduct),
         ],
       )
 
@@ -105,39 +107,6 @@ var listCategorys=[
   },
 ];
 
-var listProduct=[
-  {
-    "title":"Pizza",
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "price":"20",
-  },
-  {
-    "title":"Pizza",
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "price":"20",
-  },
-  {
-    "title":"Pizza",
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "price":"20",
-  },
-  {
-    "title":"Pizza",
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "price":"20",
-  },
-  {
-    "title":"Pizza",
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "price":"20",
-  },
-  {
-    "title":"Pizza",
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "price":"20",
-  },
-];
-
 _buildListCategory(){
   return Container(
     height: 120,
@@ -177,17 +146,16 @@ _buildListCategory(){
   );
 }
 
-_buildListProduct(BuildContext context){
+_buildListProduct(BuildContext context,List<Product> list){
   return Container(
-    //color: Colors.pink,
     margin: EdgeInsets.only(bottom: 10),
     padding: EdgeInsets.only(bottom: 10),
-    height: 190,
+    height: 180,
     child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: listProduct.length,
+        itemCount: list.length,
         itemBuilder: (context,index){
-          return _buildProductItem(context,listProduct[index]);
+          return _buildProductItem(context,list[index]);
         }
     ),
   );
@@ -265,10 +233,13 @@ _buildListProduct(BuildContext context){
 //   );
 // }
 
-_buildProductItem(BuildContext context,var product){
+_buildProductItem(BuildContext context,Product product){
   return InkWell(
     onTap: (){
-      Navigator.pushNamed(context, ProductDetail().routeName);
+      Navigator.pushNamed(
+          context,
+          ProductDetail().routeName,
+            arguments: {"id":"${product.id}"});
     },
     child: Container(
       margin: EdgeInsets.only(
@@ -289,27 +260,31 @@ _buildProductItem(BuildContext context,var product){
           ]
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(12),
+          Container(
+            height: 100,
+            width: double.infinity,
+            child: Stack(
+              children: [
+                Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(12),
+                    ),
+                    child: Image.network(
+                      "${product.image}",
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
-                child: Image.network(
-                  product["image"] as String,
-                  height: 90,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
+                Positioned(
+                  right: 8,
+                  top: 8,
+                  child: Icon(Icons.favorite_border,color: Colors.red,),
                 ),
-              ),
-              Positioned(
-                right: 8,
-                top: 8,
-                child: Icon(Icons.favorite_border),
-              ),
-            ],
+              ],
+            ),
           ),
           SizedBox(
             height: 5,
@@ -329,9 +304,10 @@ _buildProductItem(BuildContext context,var product){
           Padding(
             padding: const EdgeInsets.only(left: 8),
             child: Text(
-              "${product["title"]}",
+              maxLines: 1,
+              "${product.title}",
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 12,
               ),
             ),
           ),
@@ -341,7 +317,7 @@ _buildProductItem(BuildContext context,var product){
               SizedBox(
                 width: 8,
               ),
-              Text("\$ ${product["price"]}",
+              Text("\$ ${product.price}",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.green,

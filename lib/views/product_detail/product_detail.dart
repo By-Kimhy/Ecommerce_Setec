@@ -1,10 +1,43 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ProductDetail extends StatelessWidget{
+class ProductDetail extends StatefulWidget{
   String routeName="detail";
   @override
+  State<ProductDetail> createState() => _ProductDetailState();
+}
+
+class _ProductDetailState extends State<ProductDetail> {
+
+  int? id;
+
+  // @override
+  // void didChangeDependencies() {
+  //   var data=ModalRoute.of(context)?.settings.arguments as Map;
+  //   id = int.parse(data["id"]);
+  //   print("ID ----$id");
+  //   super.didChangeDependencies();
+  // }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final args = ModalRoute.of(context)?.settings.arguments;
+
+    if (args != null && args is Map<String, dynamic>) {
+      id = int.parse(args["id"].toString());
+      print("ID ---- $id");
+    } else {
+      print("No arguments received");
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -42,7 +75,7 @@ class ProductDetail extends StatelessWidget{
           _buildBanner(),
           _buildTitleDetail(),
           _buildTitle("Related Products"),
-          _buildListProduct(context),
+          //_buildListProduct(context),
 
         ],
       ),
@@ -164,148 +197,114 @@ _buildButton(String title,{Color? bgColor,Color? txtColor}){
   );
 }
 
-var listProduct=[
-  {
-    "title":"Pizza",
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "price":"20",
-  },
-  {
-    "title":"Pizza",
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "price":"20",
-  },
-  {
-    "title":"Pizza",
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "price":"20",
-  },
-  {
-    "title":"Pizza",
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "price":"20",
-  },
-  {
-    "title":"Pizza",
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "price":"20",
-  },
-  {
-    "title":"Pizza",
-    "image":"https://www.recipetineats.com/tachyon/2023/05/Garlic-cheese-pizza_9.jpg",
-    "price":"20",
-  },
-];
-
-
-_buildListProduct(BuildContext context){
-  return Container(
-    //color: Colors.pink,
-    margin: EdgeInsets.only(bottom: 10),
-    padding: EdgeInsets.only(bottom: 10),
-    height: 190,
-    child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: listProduct.length,
-        itemBuilder: (context,index){
-          return _buildProductItem(context,listProduct[index]);
-        }
-    ),
-  );
-}
-
-_buildProductItem(BuildContext context,var product){
-  return InkWell(
-    onTap: (){
-      Navigator.pushNamed(context, ProductDetail().routeName);
-    },
-    child: Container(
-      margin: EdgeInsets.only(
-        left: 10,
-        right: 5,
-      ),
-      width: 125,
-      // clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(color: Colors.black12,
-                blurRadius: 2,
-                spreadRadius: 2,
-                offset: Offset(2,4)
-            ),
-          ]
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(12),
-                ),
-                child: Image.network(
-                  product["image"] as String,
-                  height: 90,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                right: 8,
-                top: 8,
-                child: Icon(Icons.favorite_border),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 8,
-              ),
-              Icon(Icons.star_border_outlined,size: 15,),
-              Icon(Icons.star_border_outlined,size: 15,),
-              Icon(Icons.star_border_outlined,size: 15,),
-              Icon(Icons.star_border_outlined,size: 15,),
-              Icon(Icons.star_border_outlined,size: 15,),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Text(
-              "${product["title"]}",
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-          ),
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: 8,
-              ),
-              Text("\$ ${product["price"]}",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Spacer(),
-              Icon(Icons.add_shopping_cart),
-              SizedBox(
-                width: 8,
-              )
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
-}
+// _buildListProduct(BuildContext context){
+//   return Container(
+//     //color: Colors.pink,
+//     margin: EdgeInsets.only(bottom: 10),
+//     padding: EdgeInsets.only(bottom: 10),
+//     height: 190,
+//     child: ListView.builder(
+//         scrollDirection: Axis.horizontal,
+//         itemCount: listProduct.length,
+//         itemBuilder: (context,index){
+//           return _buildProductItem(context,listProduct[index]);
+//         }
+//     ),
+//   );
+// }
+//
+// _buildProductItem(BuildContext context,var product){
+//   return InkWell(
+//     onTap: (){
+//       Navigator.pushNamed(context, ProductDetail().routeName);
+//     },
+//     child: Container(
+//       margin: EdgeInsets.only(
+//         left: 10,
+//         right: 5,
+//       ),
+//       width: 125,
+//       // clipBehavior: Clip.hardEdge,
+//       decoration: BoxDecoration(
+//           color: Colors.white,
+//           borderRadius: BorderRadius.circular(10),
+//           boxShadow: [
+//             BoxShadow(color: Colors.black12,
+//                 blurRadius: 2,
+//                 spreadRadius: 2,
+//                 offset: Offset(2,4)
+//             ),
+//           ]
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Stack(
+//             children: [
+//               ClipRRect(
+//                 borderRadius: BorderRadius.vertical(
+//                   top: Radius.circular(12),
+//                 ),
+//                 child: Image.network(
+//                   product["image"] as String,
+//                   height: 90,
+//                   width: double.infinity,
+//                   fit: BoxFit.cover,
+//                 ),
+//               ),
+//               Positioned(
+//                 right: 8,
+//                 top: 8,
+//                 child: Icon(Icons.favorite_border),
+//               ),
+//             ],
+//           ),
+//           SizedBox(
+//             height: 5,
+//           ),
+//           Row(
+//             children: [
+//               SizedBox(
+//                 width: 8,
+//               ),
+//               Icon(Icons.star_border_outlined,size: 15,),
+//               Icon(Icons.star_border_outlined,size: 15,),
+//               Icon(Icons.star_border_outlined,size: 15,),
+//               Icon(Icons.star_border_outlined,size: 15,),
+//               Icon(Icons.star_border_outlined,size: 15,),
+//             ],
+//           ),
+//           Padding(
+//             padding: const EdgeInsets.only(left: 8),
+//             child: Text(
+//               "${product["title"]}",
+//               style: TextStyle(
+//                 fontSize: 20,
+//               ),
+//             ),
+//           ),
+//           Row(
+//             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               SizedBox(
+//                 width: 8,
+//               ),
+//               Text("\$ ${product["price"]}",
+//                 style: TextStyle(
+//                   fontSize: 20,
+//                   color: Colors.green,
+//                   fontWeight: FontWeight.bold,
+//                 ),
+//               ),
+//               Spacer(),
+//               Icon(Icons.add_shopping_cart),
+//               SizedBox(
+//                 width: 8,
+//               )
+//             ],
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+// }

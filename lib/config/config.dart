@@ -1,3 +1,4 @@
 class Config {
-  String baseUrl='';
+  String baseUrl='https://fakestoreapi.com';
+  String product='/products';
 }

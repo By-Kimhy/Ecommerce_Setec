@@ -1,8 +1,28 @@
+import 'package:ecommercesetec/model/product_model.dart';
+import 'package:ecommercesetec/services/product_service.dart';
 import 'package:ecommercesetec/views/product_detail/product_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget{
+class HomePage extends StatefulWidget{
+  String routeName = '/home';
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final ProductService _productService=ProductService();
+  List<Product> listProduct=[];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  Future<void> fetchProductData() async {
+    listProduct= await _productService.fetchProduct();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,14 +1,14 @@
 // To parse this JSON data, do
 //
-//     final welcome = welcomeFromJson(jsonString);
+//     final product = productFromJson(jsonString);
 
 import 'dart:convert';
 
-List<Welcome> welcomeFromJson(String str) => List<Welcome>.from(json.decode(str).map((x) => Welcome.fromJson(x)));
+List<Product> productFromJson(String str) => List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
 
-String welcomeToJson(List<Welcome> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String productToJson(List<Product> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Welcome {
+class Product {
   int id;
   String title;
   double price;
@@ -17,7 +17,7 @@ class Welcome {
   String image;
   Rating rating;
 
-  Welcome({
+  Product({
     required this.id,
     required this.title,
     required this.price,
@@ -27,7 +27,7 @@ class Welcome {
     required this.rating,
   });
 
-  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
     id: json["id"],
     title: json["title"],
     price: json["price"]?.toDouble(),

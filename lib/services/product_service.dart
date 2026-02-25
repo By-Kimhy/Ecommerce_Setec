@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:ecommercesetec/config/config.dart';
@@ -13,6 +14,17 @@ class ProductService {
       return listProduct;
     }else{
       return [];
+    }
+  }
+
+  Future<Product?> fetchProductByID(int? id) async {
+    var url = Uri.https(Config().baseUrl, '${Config().product}/$id');
+    var response = await http.get(url);
+    if(response.statusCode==200){
+      Product product=Product.fromJson(jsonDecode(response.body));
+      return product;
+    }else{
+      return null;
     }
   }
 }

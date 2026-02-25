@@ -17,12 +17,15 @@ class _HomePageState extends State<HomePage> {
   List<Product> listProduct=[];
   @override
   void initState() {
-    fetchProductData();
+
     super.initState();
+    fetchProductData();
   }
 
   Future<void> fetchProductData() async {
     listProduct= await _productService.fetchProduct();
+    setState(() {
+    });
   }
 
   @override

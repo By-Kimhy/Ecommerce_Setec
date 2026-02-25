@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:math';
 
+import 'package:ecommercesetec/model/product_model.dart';
+import 'package:ecommercesetec/services/product_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,30 +13,37 @@ class ProductDetail extends StatefulWidget{
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-
+  final _productService = ProductService();
   int? id;
-
-  // @override
-  // void didChangeDependencies() {
-  //   var data=ModalRoute.of(context)?.settings.arguments as Map;
-  //   id = int.parse(data["id"]);
-  //   print("ID ----$id");
-  //   super.didChangeDependencies();
-  // }
+  Product? productData;
 
   @override
   void didChangeDependencies() {
+    var data=ModalRoute.of(context)?.settings.arguments as Map;
+    id = int.parse(data["id"]);
+    print("ID ----$id");
+    fetchProductByID(id!);
     super.didChangeDependencies();
-
-    final args = ModalRoute.of(context)?.settings.arguments;
-
-    if (args != null && args is Map<String, dynamic>) {
-      id = int.parse(args["id"].toString());
-      print("ID ---- $id");
-    } else {
-      print("No arguments received");
-    }
   }
+
+  Future<void> fetchProductByID(int id) async {
+    productData=await _productService.fetchProductByID(id);
+    log("Data-Detail--${jsonEncode(productData)}" as num);
+  }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //
+  //   final args = ModalRoute.of(context)?.settings.arguments;
+  //
+  //   if (args != null && args is Map<String, dynamic>) {
+  //     id = int.parse(args["id"].toString());
+  //     print("ID ---- $id");
+  //   } else {
+  //     print("No arguments received");
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

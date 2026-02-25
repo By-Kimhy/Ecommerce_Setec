@@ -27,23 +27,12 @@ class _ProductDetailState extends State<ProductDetail> {
   }
 
   Future<void> fetchProductByID(int id) async {
-    productData=await _productService.fetchProductByID(id);
-    log("Data-Detail--${jsonEncode(productData)}" as num);
+    final data = await _productService.fetchProductByID(id);
+    setState(() {
+      productData = data;
+    });
+    print("Data-Detail--${jsonEncode(productData)}");
   }
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //
-  //   final args = ModalRoute.of(context)?.settings.arguments;
-  //
-  //   if (args != null && args is Map<String, dynamic>) {
-  //     id = int.parse(args["id"].toString());
-  //     print("ID ---- $id");
-  //   } else {
-  //     print("No arguments received");
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +71,8 @@ class _ProductDetailState extends State<ProductDetail> {
       ),
       body: ListView(
         children: [
-          _buildBanner(),
-          _buildTitleDetail(),
+          _buildBanner(productData),
+          _buildTitleDetail(productData),
           _buildTitle("Related Products"),
           //_buildListProduct(context),
 
@@ -93,12 +82,12 @@ class _ProductDetailState extends State<ProductDetail> {
   }
 }
 
-_buildBanner(){
+_buildBanner(Product? productData){
   return Container(
     height: 350,
     child: Image.network(
         fit: BoxFit.cover,
-        "https://www.apacoutlookmag.com/media/chip-mong-retail-1-1597331139.profileImage.2x-jpg-webp.webp"),
+        productData!.image
   );
 }
 
@@ -121,7 +110,7 @@ _buildTitle(String title){
   );
 }
 
-_buildTitleDetail(){
+_buildTitleDetail(Product? productData){
   return Container(
     margin: EdgeInsets.only(
       left: 12,
@@ -135,7 +124,9 @@ _buildTitleDetail(){
         ),
         Row(
           children: [
-            Text("Mango Juice",style: TextStyle(fontSize: 24),),
+            Text(
+              productData!.title,
+              style: TextStyle(fontSize: 24),),
             Spacer(),
             Icon(Icons.favorite_border),
           ],
@@ -161,7 +152,14 @@ _buildTitleDetail(){
         ),
         Row(
           children: [
-            Text("\$ 3.50",style: TextStyle(fontSize: 24,color: Colors.green,fontWeight: FontWeight.bold),),
+            Text(
+              productData.price as String,
+              style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold
+              ),
+            ),
             Spacer(),
             _buildButton("Add To Cart",txtColor: Colors.green),
             SizedBox(

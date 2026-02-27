@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:ecommercesetec/model/product_model.dart';
 import 'package:ecommercesetec/services/product_service.dart';
+import 'package:ecommercesetec/views/login_page/login_page.dart';
+import 'package:ecommercesetec/views/login_page/login_page1.dart';
 import 'package:ecommercesetec/views/product_detail/product_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: ListView(
         children: [
-          _buildBanner(),
+          _buildBanner(context),
           _buildTitle("Shop by Categories"),
           _buildListCategory(),
           _buildTitle("Special Offers"),
@@ -47,19 +49,22 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-_buildBanner(){
-  return Container(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10)
+_buildBanner(BuildContext context){
+  return InkWell(
+    onTap: ()=>Navigator.of(context).pushNamed(LoginPage1().routeName),
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10)
+      ),
+      height: 250,
+      margin: EdgeInsets.symmetric(
+        horizontal: 10,
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: Image.network(
+          fit: BoxFit.cover,
+          "https://www.apacoutlookmag.com/media/chip-mong-retail-1-1597331139.profileImage.2x-jpg-webp.webp"),
     ),
-    height: 250,
-    margin: EdgeInsets.symmetric(
-      horizontal: 10,
-    ),
-    clipBehavior: Clip.hardEdge,
-    child: Image.network(
-        fit: BoxFit.cover,
-        "https://www.apacoutlookmag.com/media/chip-mong-retail-1-1597331139.profileImage.2x-jpg-webp.webp"),
   );
 }
 
